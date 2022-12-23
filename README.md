@@ -1,2 +1,3 @@
-# WordCounter
-Project for WordCounter in pYthon
+Calvin Zheng
+Python
+Programming Language Project
