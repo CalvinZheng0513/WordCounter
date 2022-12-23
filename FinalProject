@@ -1,0 +1,75 @@
+import time
+import re
+import multiprocessing
+import string
+
+def ReadFile(file):
+    t = time.time()
+    with open(file, encoding='utf-8') as f:
+        content = f.read()
+        print('Text file is being read')
+    print(f'Finish time of reading text file: {time.time() - t} seconds\n')
+    
+def Unique(file):
+    t = time.time()
+    with open(file, encoding='utf-8') as f:  
+        data = f.read()
+        words = data.split()
+        unique = set(words)
+        print('Total Number of unique words:', len(unique))
+    print(f'Finish time of finding unique words: {time.time() - t} seconds\n')
+    f.close()
+    
+def NumberOfWord(file): 
+    t = time.time()
+    with open(file, encoding = 'utf-8') as f:
+        data = f.read()
+        words = data.split()
+    print("Total words:", len(words))
+    print(f'Finish time of counting word: {time.time() -t} seconds\n')
+              
+def Recurrence(file):
+    t = time.time()
+    occurrence = {}
+    with open(file, encoding='utf-8') as f:
+        data = f.read().lower().strip()
+        pattern = re.findall(r'\b[a-z]{3,30}\b', data)
+        for word in pattern:
+            occur = occurrence.get(word, 0)
+            occurrence[word] = occur + 1
+    sortOccurrence = dict(sorted(occurrence.items(), key=lambda elem: elem[1], reverse=True))
+    Sort = sortOccurrence.keys()
+    for word in Sort:
+        print(word, sortOccurrence[word])
+    print(f'Finish time of finding recurrence: {time.time() - t} seconds\n')
+    
+
+if __name__ == '__main__':
+    print("Welcome to word counter!")
+    print("This is a word counter program that will count the number of words in a text file.")
+    print("In order to use this program, please download a text file and use that as an input to this program.")
+    print("Accessible text files can be found at https://www.gutenberg.org/.")
+    
+    path = input("Enter the path of the text file you downloaded: ")
+    
+    t = time.time()
+    ReadFile(path)
+    Unique(path)
+    NumberOfWord(path)
+    Recurrence(path)
+    print(f'Finish time without processes: {time.time() - t:} seconds\n\n\n\n\n\n')
+    
+    t = time.time()
+    p0 = multiprocessing.Process(target=ReadFile(path))
+    p1 = multiprocessing.Process(target=Unique(path))
+    p2 = multiprocessing.Process(target=NumberOfWord(path))
+    p3 = multiprocessing.Process(target=Recurrence(path))
+    p0.start()
+    p1.start()
+    p2.start()
+    p3.start()
+    p0.join()
+    p1.join()
+    p2.join()
+    p3.join()
+    print(f'Finish time with 4 processes: {time.time() - t} seconds\n')
