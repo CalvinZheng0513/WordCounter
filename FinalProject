@@ -45,12 +45,8 @@ def Recurrence(file):
     
 
 if __name__ == '__main__':
-    print("Welcome to word counter!")
-    print("This is a word counter program that will count the number of words in a text file.")
-    print("In order to use this program, please download a text file and use that as an input to this program.")
-    print("Accessible text files can be found at https://www.gutenberg.org/.")
     
-    path = input("Enter the path of the text file you downloaded: ")
+    path = input("Enter the path text file")
     
     t = time.time()
     ReadFile(path)
